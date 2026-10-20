@@ -27,7 +27,7 @@ end
 N = size(movements,1); trail = zeros(N,3);
 for i = 1:N
     wall_e.animate(movements(i,:));
-    T = DH_FK(wall_e, movements(i,:));        % plain 4x4 (avoids SE3-object indexing)
+    T = DH_FK(wall_e, movements(i,:));      % plain 4x4 (avoids SE3-object indexing)
     trail(i,:) = T(1:3,4)';
     plot3(trail(1:i,1), trail(1:i,2), trail(1:i,3), 'b', 'LineWidth', 2);
     if drawScene
