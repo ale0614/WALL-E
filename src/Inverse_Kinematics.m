@@ -28,7 +28,7 @@ for i = 1:points
     new_joints = new_joints(1,:);
 
     % Check to see if calculated joint angles reach the target pose
-    if norm(double(wall_e.fkine(new_joints)) - current_pose, 'fro') > 5e-3
+    if norm(DH_FK(wall_e, new_joints) - current_pose, 'fro') > 5e-3
         error('IK did not converge at point %d', i);
     end
     
