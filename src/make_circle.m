@@ -1,24 +1,38 @@
 function [poses, pts] = make_circle(c, R, m, h, N)
-% MAKE_CIRCLE_POSES  Circle on a sphere with the tool z-axis along the surface normal.
-%   Sphere: |p - c| = R.  Circle plane: unit normal mhat, offset h from the center.
-%   Circle center p0 = c + h*mhat, radius r = sqrt(R^2 - h^2)
-%   Path:  p(t) = p0 + r*(cos t * u + sin t * v)
-%   Frame: n = (p - c)/R (outward normal), z = -n, x = tangent, y = z cross x
-%   Returns poses (4x4xN) and the N points pts (Nx3).
-c = c(:)'; mhat = m(:)' / norm(m);
-p0 = c + h*mhat;  r = sqrt(R^2 - h^2);
+% Create a circular path on the surface of a sphere while 
+% calculating the position and orientation at each point
+
+c = c(:)'; 
+mhat = m(:)' / norm(m);
+
+%Calculate the center and radius of the circle
+p0 = c + h*mhat;  
+r = sqrt(R^2 - h^2);
 a = [1 0 0]; if abs(mhat(1)) > 0.9, a = [0 1 0]; end
-u = cross(mhat, a); u = u / norm(u);   % in-plane basis vector 1
-v = cross(mhat, u);                    % in-plane basis vector 2
+
+% Calculate two directions to create the circular path
+u = cross(mhat, a); u = u / norm(u);   
+v = cross(mhat, u);                  
 th = linspace(0, 2*pi, N);
+
+%Create arrays
 poses = zeros(4,4,N);  pts = zeros(N,3);
+
+%Calculate the positions and orientations for each point on the circle
 for i = 1:N
+    %Get current angle
     t = th(i);
-    p = p0 + r*(cos(t)*u + sin(t)*v);  % point on circle (and on sphere)
-    n = (p - c) / R;                   % outward unit normal
-    x = -sin(t)*u + cos(t)*v;          % unit tangent (perpendicular to n)
-    z = -n;                            % tool points along the (inward) normal
+    %Calculate the positions of the current point
+    p = p0 + r*(cos(t)*u + sin(t)*v);  
+    %Find the direction from the center to the current point 
+    n = (p - c) / R;
+    %Calculate the tangent direction of the circle
+    x = -sin(t)*u + cos(t)*v;        
+    z = -n; 
+    %Calculate our y-axis
     y = cross(z, x);
+
+    %Store the position, orientations and coordinates of the current point
     poses(:,:,i) = [x(:) y(:) z(:) p(:); 0 0 0 1];
     pts(i,:) = p;
 end
