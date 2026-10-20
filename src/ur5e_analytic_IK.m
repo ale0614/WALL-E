@@ -1,6 +1,7 @@
 function joint_solutions = ur5e_analytic_IK(wall_e, T)
-% Calculate possible joint configurations for the UR5e robot
-% using analytical inverse kinematics
+% Calculate possible starting joint configurations for the first point on
+% the circle using analytical inverse kinematics
+%Later the results will be used to obtain the smoothest path
 
 
 %Get the DH parameters from the robot model
