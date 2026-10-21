@@ -21,8 +21,8 @@ for k = 1:size(S,1)
         % Calculate the full path using the current configuration
         Q = Inverse_Kinematics(wall_e, S(k,:), transformations);
     catch ME
-         
-        continue;                   
+        fprintf('Configuration %d failed: %s\n', k, ME.message);
+        continue;
     end
 
     %Compare changes between consecutive points for the six joints and save

@@ -17,7 +17,7 @@ for i = 1:points
     current_pose = transformations(:,:,i);
 
     %Peter Corke's numerical IK formula to calculate the joint angles
-    new_joints = wall_e.ikine(current_pose, 'q0', previous_joints, 'mask', [1 1 1 1 1 1]);
+    new_joints = wall_e.ikcon(current_pose, previous_joints);
     
     %Check if we found solution
     if isempty(new_joints)
