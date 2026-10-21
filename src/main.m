@@ -27,4 +27,4 @@ movements   = Inverse_Kinematics(wall_e, init_joints, transformations);
 
 %Show results and the animated robot
 results(wall_e, movements, transformations, c, R);
-animate_wall_e(wall_e, movements, c, R, pts);
+animate_wall_e(wall_e, movements, c, R, pts, 'wall_e.mp4');
