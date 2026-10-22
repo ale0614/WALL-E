@@ -20,7 +20,8 @@ for k = 1:size(S,1)
     try
         % Calculate the full path using the current configuration
         Q = Inverse_Kinematics(wall_e, S(k,:), transformations);
-    catch
+    catch ME
+         
         continue;                   
     end
 
